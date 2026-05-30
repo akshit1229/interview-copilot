@@ -31,3 +31,6 @@ backend/uploads/
 # Node (for future desktop overlay)
 node_modules/
 package-lock.json
+
+# SSL Certificates
+*.pem
