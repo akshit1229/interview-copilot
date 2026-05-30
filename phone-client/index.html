@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="Real-time AI interview copilot — get instant answers on your phone">
+    <title>ParakeetAI — Interview Copilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- ═══════════════ SETUP SCREEN ═══════════════ -->
+    <div id="setup-screen" class="screen active">
+        <div class="setup-container">
+            <div class="logo-section">
+                <div class="logo-icon">🦜</div>
+                <h1 class="logo-title">ParakeetAI</h1>
+                <p class="logo-subtitle">Real-Time Interview Copilot</p>
+            </div>
+
+            <div class="setup-card">
+                <div class="card-header">
+                    <span class="card-icon">📄</span>
+                    <h2>Upload Resume</h2>
+                </div>
+                <div class="upload-zone" id="resume-upload-zone">
+                    <input type="file" id="resume-file" accept=".pdf,.md,.txt" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('resume-file').click()">
+                        <span class="upload-icon">⬆</span>
+                        <span>Choose PDF or Text File</span>
+                    </button>
+                    <div class="upload-status" id="resume-status">No file uploaded</div>
+                </div>
+            </div>
+
+            <div class="setup-card">
+                <div class="card-header">
+                    <span class="card-icon">💼</span>
+                    <h2>Upload Job Description</h2>
+                </div>
+                <div class="upload-zone" id="jd-upload-zone">
+                    <input type="file" id="jd-file" accept=".pdf,.md,.txt" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('jd-file').click()">
+                        <span class="upload-icon">⬆</span>
+                        <span>Choose PDF or Text File</span>
+                    </button>
+                    <div class="upload-status" id="jd-status">No file uploaded</div>
+                </div>
+            </div>
+
+            <div class="setup-card">
+                <div class="card-header">
+                    <span class="card-icon">🔑</span>
+                    <h2>Server Connection</h2>
+                </div>
+                <div class="input-group">
+                    <label for="server-url">Backend URL</label>
+                    <input type="text" id="server-url" placeholder="ws://192.168.1.x:8000" value="">
+                </div>
+            </div>
+
+            <button class="primary-btn" id="start-btn" onclick="startInterview()">
+                <span class="btn-icon">🎙</span>
+                <span>Start Interview Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════ INTERVIEW SCREEN ═══════════════ -->
+    <div id="interview-screen" class="screen">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="icon-btn" id="back-btn" onclick="goBack()">←</button>
+            <div class="connection-indicator">
+                <span class="dot" id="connection-dot"></span>
+                <span class="status-text" id="status-text">Connecting...</span>
+            </div>
+            <button class="icon-btn" id="clear-btn" onclick="clearHistory()">🗑</button>
+        </div>
+
+        <!-- Transcript Section -->
+        <div class="transcript-section" id="transcript-section">
+            <div class="section-label">LIVE TRANSCRIPT</div>
+            <div class="transcript-content" id="transcript-content">
+                <div class="empty-state">Waiting for speech...</div>
+            </div>
+        </div>
+
+        <!-- Answer Section -->
+        <div class="answer-section" id="answer-section">
+            <div class="section-label">
+                <span>AI ANSWER</span>
+                <span class="answer-badge" id="answer-badge" style="display:none">GENERATING</span>
+            </div>
+            <div class="answer-content" id="answer-content">
+                <div class="empty-state">Answers will appear here when a question is detected</div>
+            </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="bottom-controls">
+            <!-- Volume bar — visible when mic is active -->
+            <div class="volume-bar-container" id="volume-bar-container" style="display:none">
+                <div class="volume-bar-track">
+                    <div class="volume-bar-fill" id="volume-bar-fill"></div>
+                </div>
+                <span class="volume-label" id="volume-label">0</span>
+            </div>
+            <div class="controls-row">
+                <button class="mic-btn" id="mic-btn" onclick="toggleMicrophone()">
+                    <div class="mic-icon" id="mic-icon">🎙</div>
+                    <div class="mic-pulse" id="mic-pulse"></div>
+                </button>
+                <button class="answer-trigger-btn" id="answer-trigger-btn" onclick="forceAnswer()">
+                    <span class="answer-trigger-icon">⚡</span>
+                    <span>Answer<br>Question</span>
+                </button>
+            </div>
+            <div class="mic-label" id="mic-label">Tap to Start</div>
+        </div>
+    </div>
+
+    <script src="js/audio-capture.js"></script>
+    <script src="js/websocket-client.js"></script>
+    <script src="js/ui-renderer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

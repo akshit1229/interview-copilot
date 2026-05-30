@@ -1,0 +1,11 @@
+{
+    "name": "ParakeetAI",
+    "short_name": "ParakeetAI",
+    "description": "Real-time AI Interview Copilot",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#07070d",
+    "theme_color": "#07070d",
+    "orientation": "portrait",
+    "icons": []
+}
